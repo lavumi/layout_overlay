@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { computed } from "@vue/reactivity";
 import { BoardLayer, KeyLabel } from "../boardLayout";
 import LayoutKey from "./LayoutKey.vue";
 
@@ -23,68 +22,59 @@ const props = defineProps<LayerProps>();
 const columns: LayerColumn[] = [
   // left
   {
-    keys: props.layer.left.pinkyOuter as any,
-    styleClass: "mt-[100px] rotate-[-6deg]",
-  },
-  {
     keys: props.layer.left.pinky as any,
-    styleClass: "mt-[55px] mr-1 rotate-[-6deg]",
+    styleClass: "mt-5",
   },
   {
     keys: props.layer.left.ring as any,
-    styleClass: "mt-7 rotate-10 mr-1 rotate-[-3deg]",
+    styleClass: "mt-3",
   },
   {
     keys: props.layer.left.middle as any,
   },
   {
     keys: props.layer.left.index as any,
-    styleClass: "mt-6",
+    styleClass: "mt-2",
   },
   {
     keys: props.layer.left.indexOuter as any,
-    styleClass: "mt-8 mr-4",
+    styleClass: "mt-4",
   },
   // right
   {
     keys: props.layer.right.indexOuter as any,
-    styleClass: "mt-8 ml-4",
+    styleClass: "mt-4 ml-4",
   },
   {
     keys: props.layer.right.index as any,
-    styleClass: "mt-6",
+    styleClass: "mt-2",
   },
   {
     keys: props.layer.right.middle as any,
   },
   {
     keys: props.layer.right.ring as any,
-    styleClass: "mt-7 rotate-10 mr-1 rotate-[3deg]",
+    styleClass: "mt-2",
   },
   {
     keys: props.layer.right.pinky as any,
-    styleClass: "mt-[55px] mr-1 rotate-[6deg]",
-  },
-  {
-    keys: props.layer.right.pinkyOuter as any,
-    styleClass: "mt-[100px] rotate-[6deg]",
+    styleClass: "mt-5",
   },
 ];
 
 function isHomeRow(col: number, row: number): boolean {
-  return ((col >= 1 && col <= 4) || (col >= 7 && col <= 10)) && row == 1;
+  return ((col >= 0 && col <= 3) || (col >= 6 && col <= 10)) && row == 1;
 }
 
-const thumbShift = "-translate-y-6";
+// const thumbShift = "-translate-y-0";
 const thumbs: LayerThumb[] = [
   // left
   {
     key: props.layer.left.thumb[0],
-    styleClass: "transform ml-[185px]",
+    styleClass: "transform ml-[110px]",
   },
   {
     key: props.layer.left.thumb[1],
-    homeKey: true,
     styleClass: "mt-[8px] ml-[6px] rotate-[12deg]",
   },
   {
@@ -98,7 +88,6 @@ const thumbs: LayerThumb[] = [
   },
   {
     key: props.layer.right.thumb[1],
-    homeKey: true,
     styleClass: "mt-[8px] mr-[6px] rotate-[-12deg]",
   },
   {
@@ -130,7 +119,7 @@ const thumbs: LayerThumb[] = [
         :key="i"
         :label="t.key"
         :home="t.homeKey"
-        :class="`${t.styleClass} ${thumbShift}`"
+        :class="`${t.styleClass}`"
         class="flex flex-col"
       />
     </div>

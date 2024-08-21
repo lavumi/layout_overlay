@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import LayoutLayer from "./LayoutLayer.vue";
 import {
-  alphaLayer,
+  colemakLayer,
   BoardLayer,
+  qwertyLayer,
   navLayer,
   numLayer,
   symLayer,
@@ -10,52 +11,57 @@ import {
   winLayer,
   uniLayer,
 } from "../boardLayout";
-import {
-  register,
-  isRegistered,
-  unregisterAll,
-} from "@tauri-apps/api/globalShortcut";
-import { emit } from "@tauri-apps/api/event";
+// import { isRegistered, register ,unregisterAll} from "@tauri-apps/plugin-global-shortcut";
 import { onMounted, onUnmounted, Ref, ref } from "vue";
 
-let layer: Ref<BoardLayer | null> = ref(alphaLayer);
+let layer: Ref<BoardLayer | null> = ref(colemakLayer);
 let layerChangeCount = ref(0);
 
-const layerMap: Record<number, BoardLayer> = {
-  13: alphaLayer,
-  // 14: qwertyLayer,
-  15: navLayer,
-  16: numLayer,
-  17: symLayer,
-  18: funLayer,
-  19: uniLayer,
-  20: winLayer,
-};
+// const layerMap: Record<string, BoardLayer> = {
+//   "colemak": colemakLayer,
+//   "Control+Space": qwertyLayer,
+//   "Tab": navLayer,
+//   "Backspace": numLayer,
+//   "Enter": symLayer,
+//   "Delete": funLayer,
+//   "": uniLayer,
+//   "20": winLayer,
+// };
 
-if ((window as any).__TAURI__) {
+
   onMounted(async () => {
-    Object.entries(layerMap).forEach(async (x) => {
-      const shortcut = `F${x[0]}`;
-      if (!(await isRegistered(shortcut))) {
-        register(shortcut, (s) => {
-          layer.value = x[1];
-          layerChangeCount.value++;
-        });
-      }
-    });
-
-    const toggleShortcut = "F24";
-    if (!(await isRegistered(toggleShortcut))) {
-      register(toggleShortcut, (s) => {
-        emit("toggle");
-      });
-    }
+    // mac 에서는 input filter 가 무조건 걸린다.... 임시 보류
+    // await register("Tab", (event) => {
+    //   if (event.state === "Pressed") {
+    //     layer.value = navLayer
+    //     layerChangeCount.value++;
+    //   } else if (event.state === "Released") {
+    //     layer.value = colemakLayer;
+    //     layerChangeCount.value++;
+    //   }
+    // });
+    // for (const x of Object.entries(layerMap)) {
+    //   const shortcut = `F${x[0]}`;
+    //   if (!(await isRegistered(shortcut))) {
+    //     await register(shortcut, (s) => {
+    //       layer.value = x[1];
+    //       layerChangeCount.value++;
+    //     });
+    //   }
+    // }
+    //
+    // const toggleShortcut = "F24";
+    // if (!(await isRegistered(toggleShortcut))) {
+    //   await register(toggleShortcut, (s) => {
+    //     emit("toggle");
+    //   });
+    // }
   });
 
   onUnmounted(async () => {
-    await unregisterAll();
+    // await unregisterAll();
   });
-}
+
 </script>
 
 <template>

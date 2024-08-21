@@ -14,12 +14,11 @@ export function isStyledLabel(val: LabelValue): val is StyledLabel {
 export type KeyLabel = null | LabelValue | LabelValue[];
 
 export interface BoardHalf {
-  pinkyOuter: FixedArray<KeyLabel, 1>;
   pinky: FixedArray<KeyLabel, 3>;
   ring: FixedArray<KeyLabel, 3>;
   middle: FixedArray<KeyLabel, 3>;
   index: FixedArray<KeyLabel, 3>;
-  indexOuter: FixedArray<KeyLabel, 2>;
+  indexOuter: FixedArray<KeyLabel, 3>;
   thumb: FixedArray<KeyLabel, 3>;
 }
 
@@ -29,7 +28,7 @@ export interface BoardLayer {
 }
 
 export enum Layer {
-  alpha = "ALPHA",
+  colemak = "COLEMAK",
   nav = "NAV",
   num = "NUM",
   sym = "SYM",
@@ -38,66 +37,65 @@ export enum Layer {
   uni = "UNI",
 }
 
-export const alphaLayer: BoardLayer = {
+export const colemakLayer: BoardLayer = {
   left: {
-    pinkyOuter: ["Z"],
-    pinky: ["J", "A", "ALT"],
-    ring: [
-      "W",
-      "R",
-      [
-        {
-          label: ",",
-          style: {
-            fontSize: "2em",
-            transform: "translateY(-10px)",
-          },
-        },
-        "CTRL",
-      ],
-    ],
-    middle: ["F", "S", ["(", "SHFT"]],
-    index: ["P", "T", "V"],
-    indexOuter: ["G", "D"],
+    // pinkyOuter: [],
+    pinky: ["q", ["a", "CTRL"], "z"],
+    ring: ["w",["r", "ALT"],"x",],
+    middle: ["f",["s", "CMD"],"c",],
+    index: ["p",["t", "SHFT"],"d",],
+    indexOuter: ["b","g","v"],
     thumb: [
       ["ESC", Layer.win],
-      [
-        {
-          label: "˽",
-          style: {
-            fontSize: "3em",
-            transform: "translateY(-15px)",
-          },
-        },
-        Layer.nav,
-      ],
+      ["SPACE", Layer.nav,],
       ["TAB", Layer.uni],
     ],
   },
   right: {
-    indexOuter: ["C", "H"],
-    index: ["L", "N", "M"],
-    middle: ["U", "E", [")", "SHFT"]],
+    indexOuter: ["j", "m","k"],
+    index: ["l", ["n", "SHFT"], "h"],
+    middle: ["u", ["e", "CMD"], ","],
     ring: [
-      "Y",
-      "I",
-      [
-        {
-          label: ".",
-          style: {
-            fontSize: "2em",
-            transform: "translateY(-10px)",
-          },
-        },
-        "CTRL",
-      ],
+      "y",
+      ["i", "ALT"],".",
     ],
-    pinky: ["B", "O", ["?", "ALT"]],
-    pinkyOuter: ["K"],
+    pinky: ["'",["o","CTRL"],"/"],
     thumb: [
-      ["ENTER", Layer.fun],
-      ["⇽", Layer.num],
-      ["⇽WRD", Layer.sym],
+      ["ENTER", Layer.sym],
+      ["BKSP", Layer.num],
+      ["DEL", Layer.fun],
+    ],
+  },
+};
+
+
+export const qwertyLayer: BoardLayer = {
+  left: {
+    // pinkyOuter: [],
+    pinky: ["q", ["a", "CTRL"], "z"],
+    ring: ["w",["r", "ALT"],"x",],
+    middle: ["f",["s", "CMD"],"c",],
+    index: ["p",["t", "SHFT"],"d",],
+    indexOuter: ["b","g","v"],
+    thumb: [
+      ["ESC", Layer.win],
+      ["SPACE", Layer.nav,],
+      ["TAB", Layer.uni],
+    ],
+  },
+  right: {
+    indexOuter: ["j", "m","k"],
+    index: ["l", ["n", "SHFT"], "h"],
+    middle: ["u", ["e", "CMD"], ","],
+    ring: [
+      "y",
+      ["i", "ALT"],".",
+    ],
+    pinky: ["'",["o","CTRL"],"/"],
+    thumb: [
+      ["ENTER", Layer.sym],
+      ["BKSP", Layer.num],
+      ["DEL", Layer.fun],
     ],
   },
 };
@@ -105,42 +103,38 @@ export const alphaLayer: BoardLayer = {
 // left thumb layers
 export const navLayer: BoardLayer = {
   left: {
-    pinkyOuter: ["🔒"],
     pinky: [null, "UNDO", "ALT"],
     ring: [null, "CUT", "CTRL"],
     middle: [null, "COPY", "SHFT"],
     index: [null, "PASTE", "WIN"],
-    indexOuter: [null, "REDO"],
+    indexOuter: [null, "REDO", ""],
     thumb: [null, null, null],
   },
   right: {
-    indexOuter: ["☰", "🔍"],
+    indexOuter: ["☰", "🔍", ""],
     index: ["HOME", "⯇", "SEL WRD"],
     middle: ["Pg↓", "⯆", "SEL LINE"],
     ring: ["Pg↑", "▲", null],
     pinky: ["END", "⯈", "CAPS LOCK"],
-    pinkyOuter: ["CAPS WRD"],
     thumb: ["S(ENTER)", "⇾", "⇾ WRD"],
   },
 };
 
 export const winLayer: BoardLayer = {
   left: {
-    pinkyOuter: ["🔒"],
     pinky: [null, "", ""],
     ring: [null, "", ""],
     middle: [null, "", ""],
     index: [null, "", ""],
-    indexOuter: [null, "🖮"],
+    indexOuter: [null, "🖮", ""],
     thumb: [null, null, null],
   },
   right: {
-    indexOuter: ["", "🗗"],
+    indexOuter: ["", "🗗",""],
     index: ["", "", ""],
     middle: ["", "", ""],
     ring: ["", "", null],
     pinky: ["", "", ""],
-    pinkyOuter: [""],
     thumb: ["", "", ""],
   },
 };
@@ -155,21 +149,19 @@ function getShiftedEmojiKey(emoji: string, shiftedEmoji: string): KeyLabel {
 
 export const uniLayer: BoardLayer = {
   left: {
-    pinkyOuter: ["🔒"],
     pinky: [null, "Á", "ALT"],
     ring: [null, "Ř", "CTRL"],
     middle: [null, "Š", "SHFT"],
     index: [null, "Ž", "WIN"],
-    indexOuter: [null, null],
+    indexOuter: [null, null, null],
     thumb: [null, null, null],
   },
   right: {
-    indexOuter: ["Ú", "Č"],
+    indexOuter: ["Ú", "Č" , ""],
     index: ["Ů", "Ě", getShiftedEmojiKey("😘", "🥰")],
     middle: ["Ď", "É", "SHFT"],
     ring: ["Ň", "Í", getShiftedEmojiKey("🤢", "🤮")],
     pinky: ["Ť", "Ý", getShiftedEmojiKey("🤨", "👍")],
-    pinkyOuter: ["Ó"],
     thumb: [
       getShiftedEmojiKey("😭", "🙁"),
       getShiftedEmojiKey("😅", "😁"),
@@ -181,63 +173,57 @@ export const uniLayer: BoardLayer = {
 // right thumb layers
 export const numLayer: BoardLayer = {
   left: {
-    pinkyOuter: ["|"],
     pinky: ["<", "0", "ALT"],
     ring: ["7", "1", ["4", "CTRL"]],
     middle: ["8", "2", "5"],
     index: ["9", "3", "6"],
-    indexOuter: [">", "!"],
+    indexOuter: [">", "!", ""],
     thumb: [".", "=", ","],
   },
   right: {
-    indexOuter: [null, null],
+    indexOuter: [null, null, ""],
     index: [null, "+", "WIN"],
     middle: [null, "-", "SHFT"],
     ring: [null, "*", "CTRL"],
     pinky: [null, "/", "ALT"],
-    pinkyOuter: ["🔒"],
     thumb: [null, null, null],
   },
 };
 
 export const symLayer: BoardLayer = {
   left: {
-    pinkyOuter: ["°"],
     pinky: ["%", "Q", null],
     ring: ["^", "X", "@"],
     middle: ["'", '"', "`"],
     index: [["$", "€"], "&", "#"],
-    indexOuter: ["~", "\\"],
+    indexOuter: ["~", "\\", ""],
     thumb: ["]", ":", "}"],
   },
   right: {
-    indexOuter: [null, null],
+    indexOuter: [null, null, ""],
     index: [null, "[", "WIN"],
     middle: [null, "{", "SHFT"],
     ring: [null, "_", "CTRL"],
     pinky: [null, ";", "ALT"],
-    pinkyOuter: ["🔒"],
     thumb: [null, null, null],
   },
 };
 
 export const funLayer: BoardLayer = {
   left: {
-    pinkyOuter: ["Prt Scr"],
     pinky: ["F9", "F5", "F1"],
     ring: ["F10", "F6", "F2"],
     middle: ["F11", "F7", "F3"],
     index: ["F12", "F8", "F4"],
-    indexOuter: ["SCR↑", "SCR↓"],
+    indexOuter: ["SCR↑", "SCR↓", ""],
     thumb: ["🐭CNST0", "🐭 LEFT", "🐭RIGHT"],
   },
   right: {
-    indexOuter: [null, null],
+    indexOuter: [null, null, ""],
     index: [null, "🐭⯇", "WIN"],
     middle: [null, "🐭⯆", "SHFT"],
     ring: [null, "🐭▲", "CTRL"],
     pinky: [null, "🐭⯈", "ALT"],
-    pinkyOuter: ["🔒"],
     thumb: [null, null, null],
   },
 };

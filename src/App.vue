@@ -11,10 +11,9 @@ import BoardLayout from "./components/BoardLayout.vue";
   height: 100%;
   flex-grow: 1;
   align-self: stretch;
-  background-color: rgba(73, 73, 73, 0.25);
-  border: 5px solid rgba(43, 43, 43, 0.3);
-  padding: 10px 5px 0 5px;
-  border-radius: 3px;
+  background-color: rgba(0, 73, 73, 0);
+  padding: 5px;
+  // border-radius: 3px;
   user-select: none;
 }
 </style>
